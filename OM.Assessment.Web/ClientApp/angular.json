@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "OM.Assessment.Web"
+  "defaultProject": "OM.Assessment.Web",
+  "cli": {
+    "analytics": false
+  }
 }
