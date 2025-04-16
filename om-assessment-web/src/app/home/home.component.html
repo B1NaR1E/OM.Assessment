@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="holographic-container">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+      <div class="col" *ngFor="let country of this.countries">
+          <img src="{{country.flag}}" class="holographic-card" alt="..." (click)="onFlagClick(country.name)">
+      </div>
+    </div>
+  </div>
+  <dx-pagination [showInfo]="true"
+                 [showNavigationButtons]="true"
+                 [itemCount]="total"
+                 [pageIndex]="pageIndex"
+                 [pageSize]="pageSize"
+                 [allowedPageSizes] = "allowedPageSizes"
+                 (pageIndexChange)="onPageIndexChange($event)"
+                 (pageSizeChange)="onPageSizeChange($event)">
+
+  </dx-pagination>
+</div>
+

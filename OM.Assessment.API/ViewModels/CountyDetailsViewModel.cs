@@ -19,6 +19,6 @@ public class CountyDetailsViewModel
 
     public static CountyDetailsViewModel FromCountry(Country country)
     {
-        return new CountyDetailsViewModel(country.Name.Common, country.Flags.Svg, country.Capital.First(), country.Population);
+        return new CountyDetailsViewModel(country.Name.Common, country.Flags.Png, country.Capital.First(), country.Population);
     }
 }

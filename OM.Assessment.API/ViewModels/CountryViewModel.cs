@@ -9,7 +9,7 @@ public class CountryViewModel(string name, string flag)
 
     public static CountryViewModel FromCountry(Country country)
     {
-        return new CountryViewModel(country.Name.Common, country.Flags.Svg);
+        return new CountryViewModel(country.Name.Common, country.Flags.Png);
     }
     
     public static IEnumerable<CountryViewModel> FromCountry(IEnumerable<Country> countries)
@@ -18,7 +18,7 @@ public class CountryViewModel(string name, string flag)
 
         foreach (var country in countries)
         {
-            result.Add(CountryViewModel.FromCountry(country));
+            result.Add(FromCountry(country));
         }
         
         return result;

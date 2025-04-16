@@ -6,3 +6,8 @@ public class ApiResponse
     public object? Data { get; set; }
     public string? Message { get; set; }
 }
+
+public class PaginatedResponse : ApiResponse
+{
+    public int TotalItems { get; set; }
+}

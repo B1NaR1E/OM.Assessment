@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using OM.Assessment.API.ServiceLayer;
+using OM.Assessment.API.Services;
 
 namespace OM.Assessment.API.Controllers;
 
@@ -15,19 +15,15 @@ public class CountriesController(
     /// Retrieve all countries
     /// </summary>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiResponse))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAsync(CancellationToken cancellationToken, [FromQuery] int pageNo = 1, [FromQuery] int pageSize = 10)
     {
         try
         {
-            var countries = await countryService.GetCountriesAsync(pageNo, pageSize, cancellationToken);
+            var response = await countryService.GetCountriesAsync(pageNo, pageSize, cancellationToken);
             
-            return Ok(new ApiResponse()
-            {
-                Success = true,
-                Data = countries
-            });
+            return Ok(response);
         }
         catch (Exception ex)
         {
@@ -46,13 +42,9 @@ public class CountriesController(
     {
         try
         {
-            var country = await countryService.GetCountryAsync(name, cancellationToken);
+            var response = await countryService.GetCountryAsync(name, cancellationToken);
             
-            return Ok(new ApiResponse()
-            {
-                Success = true,
-                Data = country
-            });
+            return Ok(response);
         }
         catch (Exception ex)
         {

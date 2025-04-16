@@ -1,27 +1,45 @@
 ﻿name: om_assessment
 services:
-  postgres:
-    image: postgres:latest
-    container_name: om_assessment.postgresql
+  om_assessment-api_service:
+    image: om_assessment-api_service
+    container_name: om_assessment-api_service
+    build:
+      context: .
+      dockerfile: OM.Assessment.API/Dockerfile
     environment:
-      POSTGRES_USER: Admin
-      POSTGRES_PASSWORD: Admin
-    command: >
-      postgres -c wal_level=logical -c max_wal_senders=5 -c max_replication_slots=5;done;
+      ASPNETCORE_ENVIRONMENT: '${ASPNETCORE_ENVIRONMENT:-Development}'
+      ASPNETCORE_URLS: 'http://+:80'
+    healthcheck:
+      test: curl --fail http://om_assessment-api_service:80/health || exit 1
+      interval: 40s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
     ports:
-      - '5432:5432'
+      - '8003:80'
     networks:
-      - face-off-net
-    volumes:
-      - './scripts/db_init.sql:/docker-entrypoint-initdb.d/db_init.sql'
+      - om_assessment-net
     restart:
-      on-failure
+      always
+    
+  app:
+    build:
+      context: .
+      dockerfile: om-assessment-web/Dockerfile
+    ports:
+      - "4200:80"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - om_assessment-net
+    restart: always
 
 networks:
-  face-off-net:
+  om_assessment-net:
     driver: bridge
-
+    
 volumes:
-  postgres:
-  rabbitmq:
-  redis_data:
+  node_modules:
+
